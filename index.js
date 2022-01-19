@@ -25,7 +25,7 @@ app.post("/paynow", [parseUrl, parseJson], (req, res) => {
 }
 if(!paymentDetails.amount || !paymentDetails.customerId || !paymentDetails.customerEmail || 
   !paymentDetails.customerPhone || !paymentDetails.courseName) {
-    //console.log(">>>>>>>>>>>>>>>",req.body)
+    console.log(">>>>>>>>>>>>>>>",req.body)
     res.status(400).send('Payment failed')
 } else {
     var params = {};
@@ -36,6 +36,7 @@ if(!paymentDetails.amount || !paymentDetails.customerId || !paymentDetails.custo
     params['ORDER_ID'] = 'TEST_'  + paymentDetails.orderID;
     params['CUST_ID'] = paymentDetails.customerId;
     params['TXN_AMOUNT'] = paymentDetails.amount;
+    // http://localhost:4100/paynow 
     params['CALLBACK_URL'] = 'https://techpayment.herokuapp.com/callback';
     params['EMAIL'] = paymentDetails.customerEmail;
     params['MOBILE_NO'] = paymentDetails.customerPhone;
@@ -110,7 +111,7 @@ app.post("/callback", (req, res) => {
          post_res.on('end', function(){
            console.log('S2S Response: ', response, "\n");
            var _results = JSON.parse(response);
-           res.redirect(`http://localhost:3000/profile?status=${_results.STATUS}&ORDERID=${_results.ORDERID}&date=${_results.TXNDATE}&bank=${_results.BANKNAME}`)
+           res.redirect(`https://techvanto.netlify.app/profile?status=${_results.STATUS}&ORDERID=${_results.ORDERID}&date=${_results.TXNDATE}&bank=${_results.BANKNAME}`)
            });
        });
 
